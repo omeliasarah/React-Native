@@ -8,9 +8,12 @@ import {
   Switch,
   Button,
   Modal,
+  Alert,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Animatable from "react-native-animatable";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { deleteFavorite } from "../redux/ActionCreators";
 
 class Reservation extends Component {
   constructor(props) {
@@ -30,7 +33,26 @@ class Reservation extends Component {
 
   handleReservation() {
     console.log(JSON.stringify(this.state));
-    this.toggleModal();
+    const message = `Number of Campers: ${this.state.campers}
+    Hike-In? ${this.state.hikeIn}
+    Date: ${this.state.date.toLocaleDateString("en-US")}`;
+
+    Alert.alert(
+      "Begin Search?",
+      message,
+      [
+        {
+          text: "Cancel",
+          onPress: () => this.resetForm(),
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => this.resetForm(),
+        },
+      ],
+      { cancelable: false }
+    );
   }
 
   resetForm() {
@@ -41,6 +63,7 @@ class Reservation extends Component {
       showCalendar: false,
     });
   }
+
   render() {
     return (
       <ScrollView>
@@ -102,35 +125,6 @@ class Reservation extends Component {
               accessibilityLabel="Tap me to search for available campsites to reserve"
             />
           </View>
-          {/* <Modal
-            animationType={"slide"}
-            transparent={false}
-            visible={this.state.showModal}
-            onRequestClose={() => this.toggleModal()}
-          >
-            <View style={styles.modal}>
-              <Text style={styles.modalTitle}>
-                Search Campsite Reservations
-              </Text>
-              <Text style={styles.modalText}>
-                Number of Campers: {this.state.campers}
-              </Text>
-              <Text style={styles.modalText}>
-                Hike-In?: {this.state.hikeIn ? "Yes" : "No"}
-              </Text>
-              <Text style={styles.modalText}>
-                Date: {this.state.date.toLocaleDateString("en-US")}
-              </Text>
-              <Button
-                onPress={() => {
-                  this.toggleModal();
-                  this.resetForm();
-                }}
-                color="#5637DD"
-                title="Close"
-              />
-            </View>
-          </Modal> */}
         </Animatable.View>
       </ScrollView>
     );
