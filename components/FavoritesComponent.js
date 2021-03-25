@@ -36,7 +36,9 @@ class Favorites extends Component {
               onPress={() =>
                 Alert.alert(
                   "Delete Favorite?",
-                  "Number of Campers: " + item.name + "?",
+                  "Are you sure you wish to delete the favorite campsite " +
+                    item.name +
+                    "?",
                   [
                     {
                       text: "Cancel",
